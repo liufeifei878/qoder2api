@@ -1,6 +1,8 @@
 name: Build and publish Docker image
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       tag:
@@ -43,7 +45,7 @@ jobs:
         with:
           images: ${{ steps.image.outputs.name }}
           tags: |
-            type=raw,value=${{ inputs.tag }}
+            type=raw,value=${{ inputs.tag || 'latest' }}
             type=sha,prefix=sha-
 
       - name: Build and push image
